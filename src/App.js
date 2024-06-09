@@ -61,7 +61,6 @@ function App() {
     <div className="App">
       <Header />
       <Menu />
-      <Pizza />
       <Footer />
     </div>
   );
@@ -74,25 +73,52 @@ function Header() {
     </header>
   );
 }
-
 function Menu() {
+  const pizzas = pizzaData;
+  // const pizzas = [];
+
+  const numPizzas = pizzas.length;
   return (
     <main className="menu">
       <h2>Our menu</h2>
-      <Pizza />
-      <Pizza />
-      <Pizza />
-      <Pizza />
+
+      {numPizzas > 0 ? (
+        <div className="pizzas">
+          {pizzas.map((pizza) => (
+            <Pizza pizzaOjb={pizza} />
+          ))}
+        </div>
+      ) : (
+        <p>Sorry we;re working on our menu coma back later :)</p>
+      )}
+      {/* <Pizza
+        name="Pizza Spinaci"
+        photo="./pizzas/Spinaci.jpg"
+        ingredients="Tomato and bread"
+        price={10}
+      />
+      <Pizza
+        name="Pizza Funghi"
+        photo="./pizzas/Funghi.jpg"
+        ingredients="Potato and bread"
+        price={20}
+      /> */}
     </main>
   );
 }
 
-function Pizza() {
+function Pizza(props) {
   return (
-    <div>
-      <h1>Pizza Spinaci</h1>
+    <div className="pizza">
+      <img src={props.pizzaOjb.photoName} alt={props.pizzaOjb.name} />
+      <div>
+        <h3>{props.pizzaOjb.name}</h3>
+        <p>{props.pizzaOjb.ingredients}</p>
+        <span>{props.pizzaOjb.price}</span>
+      </div>
+      {/* <h1>Pizza Spinaci</h1>
       <h1>Ingredients:Tomato, mozarella, spinach, and ricotta cheese </h1>
-      <img src="./pizzas/spinaci.jpg" alt=" spinici" />
+      <img src="./pizzas/spinaci.jpg" alt=" spinici" /> */}
     </div>
   );
 }
@@ -101,12 +127,15 @@ function Footer() {
   <h2>This is the footer</h2>;
   const hour = new Date().getHours();
   const openHour = 8;
-  const closeHour = 20;
+  const closeHour = 22;
   const isOpen = hour >= openHour && hour <= closeHour;
   console.log(isOpen);
   return (
     <footer className="footer">
-      {new Date().toLocaleTimeString()} We'er Currently open
+      {isOpen
+        ? `We're open until ${closeHour}:00 come and see or order online  `
+        : `We're closed now, please come tomorrow between ${openHour}:00 and ${closeHour}:00. `}
+      {/* {new Date().toLocaleTimeString()} We'er Currently open */}
     </footer>
   );
 }
